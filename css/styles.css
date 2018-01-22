@@ -1,4 +1,19 @@
+
+
+body {
+  background-image: url("../bronto.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.well {
+  background-color: #55556688;
+  padding: 10px;
+  color: lightgray;
+}
+
 .complete {
   text-decoration: line-through;
-  color: lightgray;
+  color: black;
 }
