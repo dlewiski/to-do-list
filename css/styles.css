@@ -13,7 +13,15 @@ body {
   color: lightgray;
 }
 
+.well:hover {
+  cursor: pointer;
+}
+
 .complete {
   text-decoration: line-through;
   color: black;
+}
+
+.complete:hover {
+  display: block;
 }

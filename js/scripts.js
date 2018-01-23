@@ -6,25 +6,41 @@ function hasClass(el, className) {
 function updateHtml(tasks) {
   $(".item").remove();
 
-  tasks.forEach(function(task) {
-    date = formatDate(getDateArray(task.date));
+  tasks.forEach(function(item) {
+    date = formatDate(getDateArray(item.date));
 
-    var outputName = "<h3>" + task.name + " - Due: " + date + "</h3>";
-    var outputDesc = "<p>" + task.description + "</p>";
-    var outputDiv = "<div class='well item'>" + outputName + outputDesc + "</div>"
-    $("#list").append(outputDiv);
+    var div = "list"
+    var className = "";
+    if (item.completed) {
+      div = "finishedTasks"
+      className = "complete";
+    }
 
+
+    var outputName = "<h3>" + item.name + " - Due: " + date + "</h3>";
+    var outputDesc = "<p>" + item.description + "</p>";
+    var outputDiv = "<div class='well item " + className + "'>" + outputName + outputDesc + "</div>"
+
+
+
+    $("#" + div).append(outputDiv);
+    
     $(".item").last().click(function () {
-      $(this).children("p").toggle();
-      if (hasClass(this, "complete"))
+      if (item.completed) {
         $(this).removeClass("complete");
-      else
+        $(this).children("p").hide();
+        item.completed = false;
+      } else  {
         $(this).addClass("complete");
+        $(this).children("p").fadeIn();
+        item.completed = true;
+      }
+      updateHtml(tasks);
     });
   });
 }
 
-function sortTasks(newTask, tasks) {
+function sortNewTasks(newTask, tasks) {
   var position = tasks.length;
   for (var i = 0; i < tasks.length; i++) {
     if (tasks[i].date > newTask.date) {
@@ -63,6 +79,7 @@ function Task(name, description, date) {
   this.name = name;
   this.description = description;
   this.date = date;
+  this.completed = false;
 }
 
 var tasks = [];
@@ -71,10 +88,8 @@ $(document).ready(function() {
     event.preventDefault();
 
     var newTask = getInput(tasks);
-    sortTasks(newTask, tasks);
+    sortNewTasks(newTask, tasks);
     updateHtml(tasks);
-
-
 
   });
 });
